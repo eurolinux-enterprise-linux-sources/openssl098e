@@ -18,7 +18,7 @@
 Summary: A compatibility version of a general cryptography and TLS library
 Name: openssl098e
 Version: 0.9.8e
-Release: 17%{?dist}.2
+Release: 18%{?dist}.2
 # The tarball is based on the openssl-fips-1.2.0-test.tar.gz tarball
 Source: openssl-fips-%{version}-usa.tar.bz2
 Source1: hobble-openssl
@@ -68,6 +68,7 @@ Patch87: openssl-fips-0.9.8e-cve-2009-3245.patch
 Patch88: openssl-fips-0.9.8e-casts.patch
 Patch89: openssl-fips-0.9.8e-asm-sign.patch
 Patch103: openssl-fips-0.9.8e-cve-2012-2110.patch
+Patch108: openssl-fips-0.9.8e-cve-2014-0224.patch
 
 License: OpenSSL
 Group: System Environment/Libraries
@@ -132,6 +133,7 @@ with the previous Red Hat Enterprise Linux release.
 %patch88 -p1 -b .casts
 %patch89 -p1 -b .sign
 %patch103 -p1 -b .biobuf
+%patch108 -p1 -b .keying-mitm
 
 # Modify the various perl scripts to reference perl in the right location.
 perl util/perlpath.pl `dirname %{__perl}`
@@ -264,7 +266,10 @@ rm -rf $RPM_BUILD_ROOT/%{_bindir}
 %postun -p /sbin/ldconfig
 
 %changelog
-* Mon Apr 23 2012 Tomas Mraz <tmraz@redhat.com> 0.9.8e-17.2
+* Tue Jun  3 2014 Tomas Mraz <tmraz@redhat.com> 0.9.8e-18.2
+- fix for CVE-2014-0224 - SSL/TLS MITM vulnerability
+
+* Fri Apr 20 2012 Tomas Mraz <tmraz@redhat.com> 0.9.8e-18
 - fix for CVE-2012-2110 - memory corruption in asn1_d2i_read_bio() (#814185)
 
 * Fri Apr 16 2010 Tomas Mraz <tmraz@redhat.com> 0.9.8e-17
