@@ -18,7 +18,7 @@
 Summary: A compatibility version of a general cryptography and TLS library
 Name: openssl098e
 Version: 0.9.8e
-Release: 27%{?dist}
+Release: 29%{?dist}
 # The tarball is based on the openssl-fips-1.2.0-test.tar.gz tarball
 Source: openssl-fips-%{version}-usa.tar.bz2
 Source1: hobble-openssl
@@ -305,6 +305,12 @@ rm -rf $RPM_BUILD_ROOT/%{_bindir}
 %postun -p /sbin/ldconfig
 
 %changelog
+* Fri Jan 24 2014 Daniel Mach <dmach@redhat.com> - 0.9.8e-29
+- Mass rebuild 2014-01-24
+
+* Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 0.9.8e-28
+- Mass rebuild 2013-12-27
+
 * Wed Jul 17 2013 Tomas Mraz <tmraz@redhat.com> 0.9.8e-27
 - fix for CVE-2013-0169 - SSL/TLS CBC timing attack (#907589)
 - fix for CVE-2013-0166 - DoS in OCSP signatures checking (#908052)
