@@ -18,7 +18,7 @@
 Summary: A compatibility version of a general cryptography and TLS library
 Name: openssl098e
 Version: 0.9.8e
-Release: 29%{?dist}.2
+Release: 29%{?dist}.3
 # The tarball is based on the openssl-fips-1.2.0-test.tar.gz tarball
 Source: openssl-fips-%{version}-usa.tar.bz2
 Source1: hobble-openssl
@@ -90,6 +90,9 @@ Patch105: openssl-fips-0.9.8e-secure-getenv.patch
 Patch106: openssl-fips-0.9.8e-cve-2013-0166.patch
 Patch107: openssl-fips-0.9.8e-cve-2013-0169.patch
 Patch108: openssl-fips-0.9.8e-cve-2014-0224.patch
+Patch122: openssl-fips-0.9.8e-cve-2015-0293.patch
+Patch128: openssl-fips-0.9.8e-cve-2015-3197.patch
+Patch129: openssl-fips-0.9.8e-disable-sslv2.patch
 
 License: OpenSSL
 Group: System Environment/Libraries
@@ -98,6 +101,10 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-root
 BuildRequires: mktemp, krb5-devel, perl, sed, zlib-devel, /usr/bin/cmp
 BuildRequires: /usr/bin/rename
 Requires: mktemp, ca-certificates >= 2008-5
+
+# for compatibility with previous versions, not needed for (and doesn't build
+# on) newly added platforms
+ExcludeArch: aarch64 ppc64le
 
 %description
 The OpenSSL toolkit provides support for secure communications between
@@ -175,6 +182,9 @@ with the previous Red Hat Enterprise Linux release.
 %patch106 -p1 -b .ocsp-dos
 %patch107 -p1 -b .lucky13
 %patch108 -p1 -b .keying-mitm
+%patch122 -p1 -b .ssl2-assert
+%patch128 -p1 -b .ssl2-ciphers
+%patch129 -p1 -b .disable-sslv2
 
 # Modify the various perl scripts to reference perl in the right location.
 perl util/perlpath.pl `dirname %{__perl}`
@@ -307,6 +317,11 @@ rm -rf $RPM_BUILD_ROOT/%{_bindir}
 %postun -p /sbin/ldconfig
 
 %changelog
+* Fri Mar  4 2016 Tomas Mraz <tmraz@redhat.com> 0.9.8e-29.3
+- fix CVE-2015-0293 - triggerable assert in SSLv2 server
+- fix CVE-2015-3197 - SSLv2 ciphersuite enforcement
+- disable SSLv2 in the generic TLS method
+
 * Tue Jun  3 2014 Tomas Mraz <tmraz@redhat.com> 0.9.8e-29.2
 - fix for CVE-2014-0224 - SSL/TLS MITM vulnerability
 
